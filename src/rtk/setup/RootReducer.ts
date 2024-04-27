@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import { LessonsApi } from '../api';
+import { LessonsApi, UsersApi } from '../api';
 import { LessonsSliceReducer } from '../slices';
 
 const RootReducers = combineReducers({
   lessons: LessonsSliceReducer,
   [LessonsApi.reducerPath]: LessonsApi.reducer,
+  [UsersApi.reducerPath]: UsersApi.reducer,
 });
 
 export default RootReducers;

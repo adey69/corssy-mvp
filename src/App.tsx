@@ -12,16 +12,21 @@ import { RootStack } from 'src/navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PaperProvider } from 'react-native-paper';
 import { theme } from 'src/theme';
+import { Provider } from 'react-redux';
+import { CreateStore } from './rtk';
 
 function App(): React.JSX.Element {
+  const { reduxStore } = CreateStore();
   return (
-    <PaperProvider theme={theme}>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <RootStack />
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </PaperProvider>
+    <Provider store={reduxStore}>
+      <PaperProvider theme={theme}>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </PaperProvider>
+    </Provider>
   );
 }
 

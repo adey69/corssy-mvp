@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Middleware } from 'redux';
 import RootReducer from './RootReducer';
-import { LessonsApi } from '../api';
+import { LessonsApi, UsersApi } from '../api';
 
 function CreateStore() {
-  const middlewares: Middleware[] = [LessonsApi.middleware];
+  const middlewares: Middleware[] = [
+    LessonsApi.middleware,
+    UsersApi.middleware,
+  ];
 
   /* ------------- Redux Store ------------- */
   const reduxStore = configureStore({
