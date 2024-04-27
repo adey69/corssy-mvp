@@ -1,5 +1,6 @@
 type RootStackParamsList = {
   Home: undefined;
+  LessonDetails: undefined;
 };
 
 type RootStackNavigationProp =

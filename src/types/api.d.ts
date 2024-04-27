@@ -3,7 +3,7 @@ interface IGetGradeSubjectsResponse {
   message: string;
 }
 
-interface IGetChaptersListData {
+interface ISubjectChapters {
   chapter: IChapter[];
   lessons: ILessonOverview[];
 }
@@ -14,7 +14,7 @@ interface IGetChaptersListRequest {
 
 interface IGetChaptersListResponse {
   totalChapter: number;
-  data: IGetChaptersListData[];
+  data: ISubjectChapters[];
   length: number;
   message: string;
 }

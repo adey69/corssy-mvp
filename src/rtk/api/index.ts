@@ -1,5 +1,6 @@
-import LessonsApi, { useLazyGetSubjectLessonsQuery } from './lessonsApi';
-import UsersApi, { useGetGradeSubjectsQuery } from './userApi';
+import GradeApi, {
+  useLazyGetSubjectLessonsQuery,
+  useGetGradeSubjectsQuery,
+} from './gradeApi';
 
-export { LessonsApi, useLazyGetSubjectLessonsQuery };
-export { UsersApi, useGetGradeSubjectsQuery };
+export { GradeApi, useLazyGetSubjectLessonsQuery, useGetGradeSubjectsQuery };

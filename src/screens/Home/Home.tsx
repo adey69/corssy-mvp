@@ -18,6 +18,7 @@ const Home = () => {
     selectedSubject,
     setShowErrorModal,
     setSelectedSubject,
+    handleLessonPress,
   } = useHome();
 
   const renderGradesList = useCallback(
@@ -78,7 +79,7 @@ const Home = () => {
             title={`${APP_TEXT.lesson} ${item?.lessonNumber}: ${item?.title}`}
             titleNumberOfLines={2}
             style={styles.chapterListItem}
-            onPress={() => console.log(item)}
+            onPress={handleLessonPress}
           />
         )}
         ListEmptyComponent={() =>

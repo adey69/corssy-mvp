@@ -1,6 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
-import { useGetGradeSubjectsQuery } from 'src/rtk';
-import { useLazyGetSubjectLessonsQuery } from 'src/rtk/api/lessonsApi';
+import {
+  chapterAndLessonsSelector,
+  subjectsSelector,
+  useAppSelector,
+  useGetGradeSubjectsQuery,
+} from 'src/rtk';
+import { useLazyGetSubjectLessonsQuery } from 'src/rtk/api/gradeApi';
 
 export default () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -8,11 +14,10 @@ export default () => {
     IGradeSubject | undefined
   >(undefined);
 
-  const {
-    isError: subjectsError,
-    isLoading: subjectsLoading,
-    data: subjectsList,
-  } = useGetGradeSubjectsQuery();
+  const navigation = useNavigation<RootStackNavigationProp>();
+
+  const { isError: subjectsError, isLoading: subjectsLoading } =
+    useGetGradeSubjectsQuery();
 
   const [
     getSubjectLessons,
@@ -20,9 +25,11 @@ export default () => {
       isLoading: loadingLessons,
       isFetching: fetchingLessons,
       isError: lessonsError,
-      data: lessons,
     },
   ] = useLazyGetSubjectLessonsQuery();
+
+  const subjectsList = useAppSelector(subjectsSelector);
+  const chaptersAndLessons = useAppSelector(chapterAndLessonsSelector);
 
   const isError = useMemo(
     () => lessonsError || subjectsError,
@@ -35,21 +42,25 @@ export default () => {
   );
 
   const selectedSubjectData = useMemo(() => {
-    return lessons?.data?.map(item => ({
+    return chaptersAndLessons?.map(item => ({
       title: item?.chapter[0]?.chapter_name,
       chapterNumber: item?.chapter[0]?.chapter_number,
       data: item?.lessons,
     }));
-  }, [lessons]);
+  }, [chaptersAndLessons]);
+
+  const handleLessonPress = () => {
+    navigation.navigate('LessonDetails');
+  };
 
   useEffect(() => {
     setShowErrorModal(isError);
   }, [isError]);
 
   useEffect(() => {
-    if (subjectsList && subjectsList?.data?.length > 0) {
-      setSelectedSubject(subjectsList?.data[0]);
-      getSubjectLessons({ id: subjectsList?.data[0]?._id });
+    if (subjectsList && subjectsList?.length > 0) {
+      setSelectedSubject(subjectsList[0]);
+      getSubjectLessons({ id: subjectsList[0]?._id });
     }
   }, [subjectsList]);
 
@@ -63,11 +74,11 @@ export default () => {
     showErrorModal,
     subjectsList,
     isLoading,
-    subjects: subjectsList?.data,
+    subjects: subjectsList,
     selectedSubject,
-    lessons,
     selectedSubjectData,
     setShowErrorModal,
     setSelectedSubject,
+    handleLessonPress,
   };
 };

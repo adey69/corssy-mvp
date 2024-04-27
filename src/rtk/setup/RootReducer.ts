@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux';
-import { LessonsApi, UsersApi } from '../api';
-import { LessonsSliceReducer } from '../slices';
+import { GradeApi } from '../api';
+import { GradeSliceReducer } from '../slices';
 
 const RootReducers = combineReducers({
-  lessons: LessonsSliceReducer,
-  [LessonsApi.reducerPath]: LessonsApi.reducer,
-  [UsersApi.reducerPath]: UsersApi.reducer,
+  grade: GradeSliceReducer,
+  [GradeApi.reducerPath]: GradeApi.reducer,
 });
 
 export default RootReducers;

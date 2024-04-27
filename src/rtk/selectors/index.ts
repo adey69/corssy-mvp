@@ -1,1 +1,1 @@
-export * from './lessonsSelector';
+export * from './gradeSelector';

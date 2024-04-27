@@ -1,2 +1,2 @@
-export { default as LessonsSliceActions } from './lessonsSlice';
-export { reducer as LessonsSliceReducer } from './lessonsSlice';
+export { default as GradeSliceActions } from './gradeSlice';
+export { reducer as GradeSliceReducer } from './gradeSlice';
