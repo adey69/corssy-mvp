@@ -8,6 +8,10 @@ interface IGetChaptersListData {
   lessons: ILessonOverview[];
 }
 
+interface IGetChaptersListRequest {
+  id: string;
+}
+
 interface IGetChaptersListResponse {
   totalChapter: number;
   data: IGetChaptersListData[];

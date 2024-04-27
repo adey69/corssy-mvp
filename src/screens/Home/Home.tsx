@@ -1,35 +1,59 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { Image, SectionList, TouchableOpacity, View } from 'react-native';
 import { useCallback } from 'react';
 import { ActivityIndicator, List, Text } from 'react-native-paper';
 import { theme } from 'src/theme';
+import { EmptyList, InfoModal, RemoteImage } from 'src/components';
 import { APP_TEXT } from 'src/strings';
+import { IMAGES } from 'src/assets';
 import styles from './styles';
 import { useHome } from './Hooks';
-import { InfoModal, RemoteImage } from 'src/components';
 
 const Home = () => {
-  const { subjects, showErrorModal, isLoading, setShowErrorModal } = useHome();
+  const {
+    subjects,
+    showErrorModal,
+    isLoading,
+    selectedSubjectData,
+    selectedSubject,
+    setShowErrorModal,
+    setSelectedSubject,
+  } = useHome();
 
   const renderGradesList = useCallback(
     () => (
       <View style={styles.gradesListContainer}>
-        {subjects?.map(subject => (
-          <TouchableOpacity
-            key={subject?._id}
-            style={styles.gradeItemContainer}
-            onPress={() => console.log(subject)}
-          >
-            <RemoteImage
-              source={{ uri: subject?.subject?.subject_icon }}
-              style={styles.subjectImage}
-            />
-            <Text>{subject?.subject?.Subject_name}</Text>
-          </TouchableOpacity>
-        ))}
+        {subjects && subjects?.length > 0 ? (
+          subjects?.map(subject => {
+            const isSelectedSubject = selectedSubject?._id === subject._id;
+            return (
+              <TouchableOpacity
+                key={subject?._id}
+                style={[
+                  styles.gradeItemContainer,
+                  isSelectedSubject && {
+                    backgroundColor: theme.colors.primaryDull,
+                  },
+                ]}
+                onPress={() => setSelectedSubject(subject)}
+              >
+                <RemoteImage
+                  source={{ uri: subject?.subject?.subject_icon }}
+                  style={styles.subjectImage}
+                />
+                <Text>{subject?.subject?.Subject_name}</Text>
+                {isSelectedSubject && (
+                  <Image source={IMAGES.check} style={styles.checkIcon} />
+                )}
+              </TouchableOpacity>
+            );
+          })
+        ) : !isLoading ? (
+          <EmptyList message={APP_TEXT.no_subjects_in_grade} />
+        ) : null}
       </View>
     ),
-    [subjects],
+    [subjects, selectedSubject, isLoading],
   );
 
   return (
@@ -38,15 +62,28 @@ const Home = () => {
       edges={theme.safeAreaEdges}
     >
       {renderGradesList()}
-      <FlatList
-        data={['Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4']}
+      <SectionList
+        initialNumToRender={20}
+        sections={selectedSubjectData ?? []}
+        renderSectionHeader={item => (
+          <View style={styles.chapterHeaderContainer}>
+            <Text variant="titleSmall">
+              {APP_TEXT.chapter} {item?.section?.chapterNumber}:{' '}
+              {item?.section?.title}
+            </Text>
+          </View>
+        )}
         renderItem={({ item }) => (
           <List.Item
-            title={item}
+            title={`${APP_TEXT.lesson} ${item?.lessonNumber}: ${item?.title}`}
+            titleNumberOfLines={2}
             style={styles.chapterListItem}
             onPress={() => console.log(item)}
           />
         )}
+        ListEmptyComponent={() =>
+          !isLoading ? <EmptyList message={APP_TEXT.no_chapters_found} /> : null
+        }
       />
       {isLoading && (
         <View style={styles.loadingContainer}>

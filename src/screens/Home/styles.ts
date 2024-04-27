@@ -35,4 +35,12 @@ export default StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  chapterHeaderContainer: {
+    padding: 8,
+  },
+  checkIcon: {
+    width: 14,
+    height: 14,
+    marginLeft: 4,
+  },
 });

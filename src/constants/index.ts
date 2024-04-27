@@ -7,4 +7,5 @@ export const TOKEN = Config.TOKEN;
 
 export const API_ENDPOINTS = {
   courseRegistration: 'courseregistration',
+  subjectLessons: 'lessons/subject',
 };

@@ -1,20 +1,73 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetGradeSubjectsQuery } from 'src/rtk';
+import { useLazyGetSubjectLessonsQuery } from 'src/rtk/api/lessonsApi';
 
 export default () => {
-  const { isError, isLoading, data } = useGetGradeSubjectsQuery();
-
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<
+    IGradeSubject | undefined
+  >(undefined);
+
+  const {
+    isError: subjectsError,
+    isLoading: subjectsLoading,
+    data: subjectsList,
+  } = useGetGradeSubjectsQuery();
+
+  const [
+    getSubjectLessons,
+    {
+      isLoading: loadingLessons,
+      isFetching: fetchingLessons,
+      isError: lessonsError,
+      data: lessons,
+    },
+  ] = useLazyGetSubjectLessonsQuery();
+
+  const isError = useMemo(
+    () => lessonsError || subjectsError,
+    [lessonsError, subjectsError],
+  );
+
+  const isLoading = useMemo(
+    () => subjectsLoading || loadingLessons || fetchingLessons,
+    [subjectsLoading, loadingLessons, fetchingLessons],
+  );
+
+  const selectedSubjectData = useMemo(() => {
+    return lessons?.data?.map(item => ({
+      title: item?.chapter[0]?.chapter_name,
+      chapterNumber: item?.chapter[0]?.chapter_number,
+      data: item?.lessons,
+    }));
+  }, [lessons]);
 
   useEffect(() => {
     setShowErrorModal(isError);
   }, [isError]);
 
+  useEffect(() => {
+    if (subjectsList && subjectsList?.data?.length > 0) {
+      setSelectedSubject(subjectsList?.data[0]);
+      getSubjectLessons({ id: subjectsList?.data[0]?._id });
+    }
+  }, [subjectsList]);
+
+  useEffect(() => {
+    if (selectedSubject) {
+      getSubjectLessons({ id: selectedSubject?._id });
+    }
+  }, [selectedSubject]);
+
   return {
     showErrorModal,
-    data,
+    subjectsList,
     isLoading,
-    subjects: data?.data,
+    subjects: subjectsList?.data,
+    selectedSubject,
+    lessons,
+    selectedSubjectData,
     setShowErrorModal,
+    setSelectedSubject,
   };
 };
