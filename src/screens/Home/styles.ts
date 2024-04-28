@@ -3,7 +3,7 @@ import { theme } from 'src/theme';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    padding: 16,
   },
   gradesListContainer: {
     flexDirection: 'row',

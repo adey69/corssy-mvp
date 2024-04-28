@@ -42,3 +42,62 @@ interface ILessonOverview {
   lessonNumber: number;
   completedPercentage: number;
 }
+
+interface IVideoWidgetContent {
+  title: string;
+  videoType: string;
+  videoUrl: string;
+  transcript: string;
+  voiceOverUrl: string;
+  introduction: string;
+  exercise: string;
+  example: string;
+  summary: string;
+  theory: string;
+  whatNext: string;
+  application: string;
+  questions: [];
+}
+
+interface ITextAndImageWidgetContent {
+  contentType: string;
+  contentTitle: string;
+  image: string;
+  fileUrl: string;
+  description: string;
+}
+
+interface IMultipleChoiceWidgetContent {
+  title: string;
+  totalMark: number;
+  passingMark: number;
+  numberOfQuestion: number;
+  questions: string;
+}
+
+interface IWidget {
+  widgetType: 'textAndImages' | 'video' | 'multipleChoice';
+  videoWidgetContent?: IVideoWidgetContent;
+  isActive: boolean;
+  _id: string;
+  content?: ITextAndImageContent;
+  mcqWidgetContent?: IMultipleChoiceWidgetContent;
+}
+
+interface ILessonDetail {
+  _id: string;
+  title: string;
+  shortDescription: string;
+  longDescription: string;
+  realLifeScenario: string;
+  lessonIcon: string;
+  level: string;
+  grade: string;
+  subject: string;
+  chapter: string;
+  isActive: boolean;
+  widgets: IWidget[];
+  isPaid: true;
+  price: number;
+  lessonNumber: number;
+}

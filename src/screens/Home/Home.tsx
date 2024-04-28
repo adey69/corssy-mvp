@@ -59,7 +59,7 @@ const Home = () => {
 
   return (
     <SafeAreaView
-      style={theme.commonStyles.screenContainer}
+      style={[theme.commonStyles.screenContainer, styles.container]}
       edges={theme.safeAreaEdges}
     >
       {renderGradesList()}
@@ -79,7 +79,7 @@ const Home = () => {
             title={`${APP_TEXT.lesson} ${item?.lessonNumber}: ${item?.title}`}
             titleNumberOfLines={2}
             style={styles.chapterListItem}
-            onPress={handleLessonPress}
+            onPress={() => handleLessonPress(item._id)}
           />
         )}
         ListEmptyComponent={() =>

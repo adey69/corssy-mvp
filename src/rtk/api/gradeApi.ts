@@ -19,8 +19,22 @@ const GradeApi = createApi({
         url: `${API_ENDPOINTS.courseRegistration}/${USER_ID}/${GRADE_ID}`,
       }),
     }),
+    getLessonDetails: builder.query<
+      ILessonDetail | undefined,
+      IGetLessonDetailsRequest
+    >({
+      query: ({ id }) => ({
+        url: `${API_ENDPOINTS.lessonDetails}`,
+        params: { _id: id },
+      }),
+      transformResponse: (result: IGetLessonDetailsResponse) =>
+        result ? result.data[0] : undefined,
+    }),
   }),
 });
 export default GradeApi;
-export const { useLazyGetSubjectLessonsQuery, useGetGradeSubjectsQuery } =
-  GradeApi;
+export const {
+  useLazyGetSubjectLessonsQuery,
+  useGetGradeSubjectsQuery,
+  useGetLessonDetailsQuery,
+} = GradeApi;

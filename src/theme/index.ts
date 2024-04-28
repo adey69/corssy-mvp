@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { Dimensions, StyleProp, ViewStyle } from 'react-native';
 import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import { MD3Colors, MD3Theme } from 'react-native-paper/lib/typescript/types';
 import { Edges } from 'react-native-safe-area-context';
@@ -11,6 +11,8 @@ interface ITheme extends MD3Theme {
   commonStyles: {
     screenContainer: StyleProp<ViewStyle>;
   };
+  screenWidth: number;
+  screenHeight: number;
 }
 // To add custom theming properties
 export const theme: ITheme = {
@@ -23,8 +25,10 @@ export const theme: ITheme = {
     screenContainer: {
       flex: 1,
       backgroundColor: DefaultTheme.colors.background,
-      padding: 16,
     },
   },
+
   safeAreaEdges: ['left', 'right', 'bottom'],
+  screenHeight: Dimensions.get('screen').height,
+  screenWidth: Dimensions.get('screen').width,
 };

@@ -49,8 +49,8 @@ export default () => {
     }));
   }, [chaptersAndLessons]);
 
-  const handleLessonPress = () => {
-    navigation.navigate('LessonDetails');
+  const handleLessonPress = (id: string) => {
+    navigation.navigate('LessonDetails', { id });
   };
 
   useEffect(() => {

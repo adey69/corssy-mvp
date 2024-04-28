@@ -1,6 +1,12 @@
 import GradeApi, {
   useLazyGetSubjectLessonsQuery,
   useGetGradeSubjectsQuery,
+  useGetLessonDetailsQuery,
 } from './gradeApi';
 
-export { GradeApi, useLazyGetSubjectLessonsQuery, useGetGradeSubjectsQuery };
+export {
+  GradeApi,
+  useLazyGetSubjectLessonsQuery,
+  useGetGradeSubjectsQuery,
+  useGetLessonDetailsQuery,
+};

@@ -18,3 +18,12 @@ interface IGetChaptersListResponse {
   length: number;
   message: string;
 }
+
+interface IGetLessonDetailsRequest {
+  id: string;
+}
+
+interface IGetLessonDetailsResponse {
+  message: string;
+  data: ILessonDetail[];
+}

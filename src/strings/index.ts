@@ -7,4 +7,7 @@ export const APP_TEXT = {
   no_chapters_found: 'No chapters available in selected subject',
   chapter: 'Chapter',
   lesson: 'Lesson',
+  previous: 'Previous',
+  next: 'Next',
+  complete: 'Complete',
 };
