@@ -1,6 +1,6 @@
 import { Button, Card, Surface, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { RemoteImage } from 'src/components';
+import { RemoteImage, VideoPlayer } from 'src/components';
 import { theme } from 'src/theme';
 import styles from './styles';
 import { useLessonDetails } from './Hooks';
@@ -38,11 +38,17 @@ const LessonDetails = () => {
         </View>
       );
     } else if (item?.widgetType === 'video') {
-      return null;
+      return (
+        <View style={styles.widgetItem}>
+          <VideoPlayer
+            source={{ uri: item?.videoWidgetContent?.videoUrl ?? '' }}
+          />
+        </View>
+      );
     }
     return (
       <View style={styles.widgetItem}>
-        <Text>MCQ</Text>
+        <Text>{APP_TEXT.unable_to_load_content}</Text>
       </View>
     );
   };

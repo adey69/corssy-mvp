@@ -10,4 +10,7 @@ export const APP_TEXT = {
   previous: 'Previous',
   next: 'Next',
   complete: 'Complete',
+  video_not_loaded: "Couldn't load video",
+  unable_to_load_content:
+    "This content couldn't be shown due to unsupported format or incomplete data.",
 };
