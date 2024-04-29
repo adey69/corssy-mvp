@@ -7,6 +7,7 @@ interface ITheme extends MD3Theme {
   safeAreaEdges: Edges;
   colors: MD3Colors & {
     primaryDull: string;
+    green: string;
   };
   commonStyles: {
     screenContainer: StyleProp<ViewStyle>;
@@ -21,6 +22,7 @@ export const theme: ITheme = {
   colors: {
     ...DefaultTheme.colors,
     primaryDull: '#8a2be2',
+    green: '#AFE1AF',
   },
   commonStyles: {
     screenContainer: {

@@ -41,8 +41,11 @@ const LessonDetails = () => {
               resizeMode="contain"
             />
           ) : null}
-          <Text variant="titleMedium">{item?.contentTitle}</Text>
-          <Surface style={styles.contentCard}>
+          <Surface style={styles.contentTitleContainer}>
+            <Text variant="titleLarge">{item?.contentTitle}</Text>
+          </Surface>
+
+          <Surface style={styles.contentDescContainer}>
             <Text>{item?.description}</Text>
           </Surface>
         </View>
@@ -99,7 +102,7 @@ const LessonDetails = () => {
         </Button>
       </View>
     );
-  }, [currentWidgetIndex, widgetsList]);
+  }, [currentWidgetIndex, widgetsList, completedLessonsWidgets]);
 
   return (
     <SafeAreaView
@@ -123,6 +126,7 @@ const LessonDetails = () => {
         <FlatList
           ref={listRef}
           data={widgetsList ?? []}
+          contentContainerStyle={styles.listContainer}
           renderItem={renderItem}
           getItemLayout={(data, index) => ({
             length: theme.screenWidth,

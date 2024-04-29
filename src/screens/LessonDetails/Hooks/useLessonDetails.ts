@@ -44,11 +44,15 @@ export default () => {
       return completedLessonsWidgets?.completedWidgets - 1;
     }
     return 0;
-  }, [completedLessonsWidgets, widgetsList?.length]);
+  }, [widgetsList?.length]);
 
   const [currentWidgetIndex, setCurrentWidgetIndex] = useState(
     initialListIndex ?? 0,
   );
+
+  useEffect(() => {
+    setCurrentWidgetIndex(initialListIndex);
+  }, [initialListIndex]);
 
   const onNextPressed = () => {
     if (widgetsList && currentWidgetIndex < widgetsList?.length - 1) {

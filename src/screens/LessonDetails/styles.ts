@@ -3,7 +3,11 @@ import { theme } from 'src/theme';
 
 export default StyleSheet.create({
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1,
+    marginTop: 16,
+  },
+  listContainer: {
+    flexGrow: 1,
     paddingVertical: 16,
   },
   contentImg: {
@@ -14,6 +18,7 @@ export default StyleSheet.create({
   widgetItem: {
     width: theme.screenWidth,
     paddingHorizontal: 16,
+    height: '100%',
   },
   footerContainer: {
     flexDirection: 'row',
@@ -28,19 +33,28 @@ export default StyleSheet.create({
   nextButton: {
     color: theme.colors.background,
   },
-  contentCard: {
-    backgroundColor: theme.colors.background,
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    marginTop: 8,
-  },
-
   progressBar: {
     width: '80%',
     alignSelf: 'center',
     height: 20,
     borderRadius: 16,
+    marginTop: 16,
+  },
+  contentTitleContainer: {
+    backgroundColor: theme.colors.primaryContainer,
+    borderTopEndRadius: 8,
+    borderBottomEndRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    left: -16,
+  },
+  contentDescContainer: {
+    backgroundColor: theme.colors.green,
+    borderTopStartRadius: 8,
+    borderBottomStartRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    right: -16,
     marginTop: 16,
   },
 });
