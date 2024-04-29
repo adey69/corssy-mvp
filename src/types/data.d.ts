@@ -40,7 +40,6 @@ interface ILessonOverview {
   isPaid: boolean;
   price: number;
   lessonNumber: number;
-  completedPercentage: number;
 }
 
 interface IVideoWidgetContent {

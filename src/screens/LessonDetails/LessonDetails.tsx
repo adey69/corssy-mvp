@@ -1,36 +1,57 @@
-import { Button, Card, Surface, Text } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Card,
+  ProgressBar,
+  Surface,
+  Text,
+} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { RemoteImage, VideoPlayer } from 'src/components';
+import { InfoModal, RemoteImage, VideoPlayer } from 'src/components';
 import { theme } from 'src/theme';
 import styles from './styles';
 import { useLessonDetails } from './Hooks';
 import { FlatList, ListRenderItemInfo, ScrollView, View } from 'react-native';
 import { APP_TEXT } from 'src/strings';
+import { useCallback } from 'react';
 
 const LessonDetails = () => {
   const {
+    initialListIndex,
     currentWidgetIndex,
+    completedLessonsWidgets,
     listRef,
     widgetsList,
+    showErrorModal,
+    isLoading,
+    isFetching,
+    setShowErrorModal,
     onNextPressed,
     onPreviousPressed,
   } = useLessonDetails();
 
-  const renderImageAndTextContent = (item: ITextAndImageWidgetContent) => {
-    return (
-      <View>
-        {item?.image ? (
-          <RemoteImage style={styles.contentImg} resizeMode="contain" />
-        ) : null}
-        <Text variant="titleMedium">{item?.contentTitle}</Text>
-        <Surface style={styles.contentCard}>
-          <Text>{item?.description}</Text>
-        </Surface>
-      </View>
-    );
-  };
+  const renderImageAndTextContent = useCallback(
+    (item: ITextAndImageWidgetContent) => {
+      return (
+        <View>
+          {item?.image ? (
+            <RemoteImage
+              source={{ uri: item?.image }}
+              style={styles.contentImg}
+              resizeMode="contain"
+            />
+          ) : null}
+          <Text variant="titleMedium">{item?.contentTitle}</Text>
+          <Surface style={styles.contentCard}>
+            <Text>{item?.description}</Text>
+          </Surface>
+        </View>
+      );
+    },
+    [],
+  );
 
-  const renderItem = ({ item }: ListRenderItemInfo<IWidget>) => {
+  const renderItem = useCallback(({ item }: ListRenderItemInfo<IWidget>) => {
     if (item?.widgetType === 'textAndImages') {
       return (
         <View style={styles.widgetItem}>
@@ -51,9 +72,9 @@ const LessonDetails = () => {
         <Text>{APP_TEXT.unable_to_load_content}</Text>
       </View>
     );
-  };
+  }, []);
 
-  const renderListFooter = () => {
+  const renderListFooter = useCallback(() => {
     return (
       <View style={styles.footerContainer}>
         {currentWidgetIndex !== 0 && (
@@ -78,23 +99,53 @@ const LessonDetails = () => {
         </Button>
       </View>
     );
-  };
+  }, [currentWidgetIndex, widgetsList]);
 
   return (
     <SafeAreaView
       edges={theme.safeAreaEdges}
       style={theme.commonStyles.screenContainer}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ProgressBar
+        progress={
+          widgetsList && completedLessonsWidgets?.completedWidgets
+            ? completedLessonsWidgets?.completedWidgets / widgetsList?.length
+            : 0
+        }
+        color={theme.colors.primary}
+        style={styles.progressBar}
+      />
+
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <FlatList
           ref={listRef}
           data={widgetsList ?? []}
           renderItem={renderItem}
+          getItemLayout={(data, index) => ({
+            length: theme.screenWidth,
+            offset: theme.screenWidth * index,
+            index,
+          })}
           horizontal
           scrollEnabled={false}
+          showsHorizontalScrollIndicator={false}
+          initialScrollIndex={initialListIndex}
         />
       </ScrollView>
       {renderListFooter()}
+      {(isLoading || isFetching) && (
+        <View style={theme.commonStyles.absoluteCentered}>
+          <ActivityIndicator animating={isLoading || isFetching} />
+        </View>
+      )}
+      <InfoModal
+        onDismiss={() => setShowErrorModal(false)}
+        visible={showErrorModal}
+        message={APP_TEXT.something_went_wrong}
+      />
     </SafeAreaView>
   );
 };

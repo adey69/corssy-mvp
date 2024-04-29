@@ -9,6 +9,7 @@ export default StyleSheet.create({
   contentImg: {
     width: '100%',
     aspectRatio: 1,
+    marginBottom: 16,
   },
   widgetItem: {
     width: theme.screenWidth,
@@ -33,5 +34,13 @@ export default StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     marginTop: 8,
+  },
+
+  progressBar: {
+    width: '80%',
+    alignSelf: 'center',
+    height: 20,
+    borderRadius: 16,
+    marginTop: 16,
   },
 });

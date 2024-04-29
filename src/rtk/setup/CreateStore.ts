@@ -1,22 +1,42 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Middleware } from 'redux';
-import RootReducer from './RootReducer';
+import RootReducer from './rootReducer';
 import { GradeApi } from '../api';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from 'redux-persist';
+import REDUX_PERSIST from './reduxPersist';
 
 function CreateStore() {
   const middlewares: Middleware[] = [GradeApi.middleware];
 
+  const persistedReducer = persistReducer(
+    REDUX_PERSIST.storeConfig,
+    // @ts-ignore
+    RootReducer,
+  );
+
   /* ------------- Redux Store ------------- */
   const reduxStore = configureStore({
-    reducer: RootReducer,
+    reducer: persistedReducer,
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
-        serializableCheck: false,
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
       }).concat(middlewares),
     devTools: process.env.NODE_ENV !== 'production',
   });
 
-  return { reduxStore };
+  const persistor = persistStore(reduxStore);
+  return { reduxStore, persistor };
 }
 
 export default CreateStore;

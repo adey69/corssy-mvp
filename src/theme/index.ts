@@ -10,6 +10,7 @@ interface ITheme extends MD3Theme {
   };
   commonStyles: {
     screenContainer: StyleProp<ViewStyle>;
+    absoluteCentered: StyleProp<ViewStyle>;
   };
   screenWidth: number;
   screenHeight: number;
@@ -25,6 +26,16 @@ export const theme: ITheme = {
     screenContainer: {
       flex: 1,
       backgroundColor: DefaultTheme.colors.background,
+    },
+    absoluteCentered: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
   },
 

@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
 import {
   chapterAndLessonsSelector,
+  getLessonByIdSelector,
   subjectsSelector,
   useAppSelector,
   useGetGradeSubjectsQuery,
@@ -28,6 +29,7 @@ export default () => {
     },
   ] = useLazyGetSubjectLessonsQuery();
 
+  const completedLessonsWidgets = useAppSelector(getLessonByIdSelector);
   const subjectsList = useAppSelector(subjectsSelector);
   const chaptersAndLessons = useAppSelector(chapterAndLessonsSelector);
 
@@ -77,6 +79,7 @@ export default () => {
     subjects: subjectsList,
     selectedSubject,
     selectedSubjectData,
+    completedLessonsWidgets,
     setShowErrorModal,
     setSelectedSubject,
     handleLessonPress,

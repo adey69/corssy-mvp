@@ -25,16 +25,6 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.outline,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
   chapterHeaderContainer: {
     padding: 8,
   },

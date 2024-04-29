@@ -9,7 +9,7 @@ const Stack = createStackNavigator<RootStackParamsList>();
 const RootStack = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerTitleAlign: 'center' }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
         name="LessonDetails"

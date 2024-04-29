@@ -10,3 +10,8 @@ export const chapterAndLessonsSelector = createSelector(
   (state: IRootState) => state.grade,
   state => state.subjectLessons ?? [],
 );
+
+export const getLessonByIdSelector = createSelector(
+  (state: IRootState) => state.grade,
+  state => state.lessonCompletion,
+);

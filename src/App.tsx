@@ -14,18 +14,21 @@ import { PaperProvider } from 'react-native-paper';
 import { theme } from 'src/theme';
 import { Provider } from 'react-redux';
 import { CreateStore } from './rtk';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App(): React.JSX.Element {
-  const { reduxStore } = CreateStore();
+  const { reduxStore, persistor } = CreateStore();
   return (
     <Provider store={reduxStore}>
-      <PaperProvider theme={theme}>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <RootStack />
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </PaperProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <PaperProvider theme={theme}>
+          <SafeAreaProvider>
+            <NavigationContainer>
+              <RootStack />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </PaperProvider>
+      </PersistGate>
     </Provider>
   );
 }

@@ -1,5 +1,11 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, SectionList, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  ListRenderItemInfo,
+  SectionList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useCallback } from 'react';
 import { ActivityIndicator, List, Text } from 'react-native-paper';
 import { theme } from 'src/theme';
@@ -16,6 +22,7 @@ const Home = () => {
     isLoading,
     selectedSubjectData,
     selectedSubject,
+    completedLessonsWidgets,
     setShowErrorModal,
     setSelectedSubject,
     handleLessonPress,
@@ -57,6 +64,29 @@ const Home = () => {
     [subjects, selectedSubject, isLoading],
   );
 
+  const renderLessonItem = useCallback(
+    ({ item }: ListRenderItemInfo<ILessonOverview>) => {
+      let completionPercentage = 0;
+      if (completedLessonsWidgets[item?._id]) {
+        completionPercentage =
+          (completedLessonsWidgets[item?._id]?.completedWidgets /
+            completedLessonsWidgets[item?._id]?.totalWidgets) *
+          100;
+      }
+
+      return (
+        <List.Item
+          title={`${APP_TEXT.lesson} ${item?.lessonNumber}: ${item?.title}`}
+          titleNumberOfLines={2}
+          right={() => <Text>{Math.trunc(completionPercentage)}%</Text>}
+          style={styles.chapterListItem}
+          onPress={() => handleLessonPress(item._id)}
+        />
+      );
+    },
+    [completedLessonsWidgets],
+  );
+
   return (
     <SafeAreaView
       style={[theme.commonStyles.screenContainer, styles.container]}
@@ -74,20 +104,13 @@ const Home = () => {
             </Text>
           </View>
         )}
-        renderItem={({ item }) => (
-          <List.Item
-            title={`${APP_TEXT.lesson} ${item?.lessonNumber}: ${item?.title}`}
-            titleNumberOfLines={2}
-            style={styles.chapterListItem}
-            onPress={() => handleLessonPress(item._id)}
-          />
-        )}
+        renderItem={renderLessonItem}
         ListEmptyComponent={() =>
           !isLoading ? <EmptyList message={APP_TEXT.no_chapters_found} /> : null
         }
       />
       {isLoading && (
-        <View style={styles.loadingContainer}>
+        <View style={theme.commonStyles.absoluteCentered}>
           <ActivityIndicator animating={isLoading} />
         </View>
       )}

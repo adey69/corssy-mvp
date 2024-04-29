@@ -1,15 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GradeApi } from 'src/rtk';
 
 const INITIAL_STATE: IGradeState = {
   gradeSubjects: [],
   subjectLessons: [],
+  lessonCompletion: {},
 };
 
 const GradeSlice = createSlice({
   name: 'grade',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    updateLessonsCompletion: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        lessonId: string;
+        completedWidgets: number;
+        totalWidgets: number;
+      }>,
+    ) => {
+      state.lessonCompletion = {
+        ...state.lessonCompletion,
+        [payload.lessonId]: {
+          completedWidgets: payload.completedWidgets,
+          totalWidgets: payload.totalWidgets,
+        },
+      };
+    },
+  },
   extraReducers: builder => {
     builder.addMatcher(
       GradeApi.endpoints.getGradeSubjects.matchFulfilled,
