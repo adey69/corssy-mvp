@@ -1,14 +1,27 @@
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import { IMAGES } from 'src/assets';
-import { Home, LessonDetails } from 'src/screens';
+import { Home, LessonDetails, NoNetwork } from 'src/screens';
+import { useEffect, useState } from 'react';
 
 const Stack = createStackNavigator<RootStackParamsList>();
+const NoNetworkStack = createStackNavigator();
 
 const RootStack = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-  return (
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected ?? false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return isConnected ? (
     <Stack.Navigator screenOptions={{ headerTitleAlign: 'center' }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
@@ -26,6 +39,10 @@ const RootStack = () => {
         }}
       />
     </Stack.Navigator>
+  ) : (
+    <NoNetworkStack.Navigator screenOptions={{ headerShown: false }}>
+      <NoNetworkStack.Screen name="NoNetwork" component={NoNetwork} />
+    </NoNetworkStack.Navigator>
   );
 };
 

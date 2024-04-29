@@ -12,6 +12,7 @@
     "next": "Next",
     "complete": "Complete",
     "video_not_loaded": "Couldn't load video",
-    "unable_to_load_content": "This content couldn't be shown due to unsupported format or incomplete data."
+    "unable_to_load_content": "This content couldn't be shown due to unsupported format or incomplete data.",
+    "no_internet": "You are not connected to any network."
   }
 }
