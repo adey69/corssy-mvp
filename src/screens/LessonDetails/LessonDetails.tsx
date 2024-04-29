@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Button,
-  Card,
   ProgressBar,
   Surface,
   Text,

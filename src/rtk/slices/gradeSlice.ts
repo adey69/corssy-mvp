@@ -2,8 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GradeApi } from 'src/rtk';
 
 const INITIAL_STATE: IGradeState = {
-  gradeSubjects: [],
-  subjectLessons: [],
   lessonCompletion: {},
 };
 
@@ -29,20 +27,6 @@ const GradeSlice = createSlice({
         },
       };
     },
-  },
-  extraReducers: builder => {
-    builder.addMatcher(
-      GradeApi.endpoints.getGradeSubjects.matchFulfilled,
-      (state, { payload }) => {
-        state.gradeSubjects = payload?.data ?? [];
-      },
-    );
-    builder.addMatcher(
-      GradeApi.endpoints.getSubjectLessons.matchFulfilled,
-      (state, { payload }) => {
-        state.subjectLessons = payload.data ?? [];
-      },
-    );
   },
 });
 

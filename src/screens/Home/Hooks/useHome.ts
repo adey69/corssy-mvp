@@ -1,9 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  chapterAndLessonsSelector,
   getLessonByIdSelector,
-  subjectsSelector,
   useAppSelector,
   useGetGradeSubjectsQuery,
 } from 'src/rtk';
@@ -17,8 +15,11 @@ export default () => {
 
   const navigation = useNavigation<RootStackNavigationProp>();
 
-  const { isError: subjectsError, isLoading: subjectsLoading } =
-    useGetGradeSubjectsQuery();
+  const {
+    isError: subjectsError,
+    isLoading: subjectsLoading,
+    data: subjectsList,
+  } = useGetGradeSubjectsQuery();
 
   const [
     getSubjectLessons,
@@ -26,12 +27,11 @@ export default () => {
       isLoading: loadingLessons,
       isFetching: fetchingLessons,
       isError: lessonsError,
+      data: chaptersAndLessons,
     },
   ] = useLazyGetSubjectLessonsQuery();
 
   const completedLessonsWidgets = useAppSelector(getLessonByIdSelector);
-  const subjectsList = useAppSelector(subjectsSelector);
-  const chaptersAndLessons = useAppSelector(chapterAndLessonsSelector);
 
   const isError = useMemo(
     () => lessonsError || subjectsError,
@@ -44,7 +44,7 @@ export default () => {
   );
 
   const selectedSubjectData = useMemo(() => {
-    return chaptersAndLessons?.map(item => ({
+    return chaptersAndLessons?.data?.map(item => ({
       title: item?.chapter[0]?.chapter_name,
       chapterNumber: item?.chapter[0]?.chapter_number,
       data: item?.lessons,
@@ -60,9 +60,9 @@ export default () => {
   }, [isError]);
 
   useEffect(() => {
-    if (subjectsList && subjectsList?.length > 0) {
-      setSelectedSubject(subjectsList[0]);
-      getSubjectLessons({ id: subjectsList[0]?._id });
+    if (subjectsList && subjectsList?.data?.length > 0) {
+      setSelectedSubject(subjectsList?.data[0]);
+      getSubjectLessons({ id: subjectsList?.data[0]?._id });
     }
   }, [subjectsList]);
 
@@ -76,7 +76,7 @@ export default () => {
     showErrorModal,
     subjectsList,
     isLoading,
-    subjects: subjectsList,
+    subjects: subjectsList?.data,
     selectedSubject,
     selectedSubjectData,
     completedLessonsWidgets,
