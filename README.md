@@ -88,3 +88,9 @@ The `questions` array in lesson details API is not populated and instead it just
 I used React Native Paper UI library to be done with UI faster than having to create it manually.
 
 ## UI Images:
+
+![showing persisted progress](https://github.com/adey69/corssy-mvp/blob/main/demo/showing-persisted-progress.png)
+![showing second selected subject](https://github.com/adey69/corssy-mvp/blob/main/demo/showing-second-selected-subject.png)
+![text with image](https://github.com/adey69/corssy-mvp/blob/main/demo/text-with-video.png)
+![textual content](https://github.com/adey69/corssy-mvp/blob/main/demo/textual-content.png)
+![video content](https://github.com/adey69/corssy-mvp/blob/main/demo/video-content.png)
