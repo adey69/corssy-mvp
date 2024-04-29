@@ -100,3 +100,7 @@ interface ILessonDetail {
   price: number;
   lessonNumber: number;
 }
+
+interface IOnSeekData {
+  seekTime: number;
+}
