@@ -10,10 +10,10 @@ import { useCallback } from 'react';
 import { ActivityIndicator, List, Text } from 'react-native-paper';
 import { theme } from 'src/theme';
 import { EmptyList, InfoModal, RemoteImage } from 'src/components';
-import { APP_TEXT } from 'src/strings';
 import { IMAGES } from 'src/assets';
 import styles from './styles';
 import { useHome } from './Hooks';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const {
@@ -27,6 +27,7 @@ const Home = () => {
     setSelectedSubject,
     handleLessonPress,
   } = useHome();
+  const { t } = useTranslation('common');
 
   const renderGradesList = useCallback(
     () => (
@@ -57,7 +58,7 @@ const Home = () => {
             );
           })
         ) : !isLoading ? (
-          <EmptyList message={APP_TEXT.no_subjects_in_grade} />
+          <EmptyList message={t('no_subjects_in_grade')} />
         ) : null}
       </View>
     ),
@@ -76,7 +77,7 @@ const Home = () => {
 
       return (
         <List.Item
-          title={`${APP_TEXT.lesson} ${item?.lessonNumber}: ${item?.title}`}
+          title={`${t('lesson')} ${item?.lessonNumber}: ${item?.title}`}
           titleNumberOfLines={2}
           right={() => <Text>{Math.trunc(completionPercentage)}%</Text>}
           style={styles.chapterListItem}
@@ -99,14 +100,14 @@ const Home = () => {
         renderSectionHeader={item => (
           <View style={styles.chapterHeaderContainer}>
             <Text variant="titleSmall">
-              {APP_TEXT.chapter} {item?.section?.chapterNumber}:{' '}
+              {t('chapter')} {item?.section?.chapterNumber}:{' '}
               {item?.section?.title}
             </Text>
           </View>
         )}
         renderItem={renderLessonItem}
         ListEmptyComponent={() =>
-          !isLoading ? <EmptyList message={APP_TEXT.no_chapters_found} /> : null
+          !isLoading ? <EmptyList message={t('no_chapters_found')} /> : null
         }
       />
       {isLoading && (
@@ -117,7 +118,7 @@ const Home = () => {
       <InfoModal
         onDismiss={() => setShowErrorModal(false)}
         visible={showErrorModal}
-        message={APP_TEXT.something_went_wrong}
+        message={t('something_went_wrong')}
       />
     </SafeAreaView>
   );

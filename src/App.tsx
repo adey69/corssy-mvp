@@ -13,11 +13,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PaperProvider } from 'react-native-paper';
 import { theme } from 'src/theme';
 import { Provider } from 'react-redux';
-import { CreateStore } from './rtk';
+import { CreateStore } from 'src/rtk';
 import { PersistGate } from 'redux-persist/integration/react';
+import i18n from './translations';
 
+i18n.then(() => {});
+
+const { reduxStore, persistor } = CreateStore();
 function App(): React.JSX.Element {
-  const { reduxStore, persistor } = CreateStore();
   return (
     <Provider store={reduxStore}>
       <PersistGate loading={null} persistor={persistor}>

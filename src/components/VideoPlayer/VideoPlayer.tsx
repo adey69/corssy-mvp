@@ -3,15 +3,16 @@ import styles from './styles';
 import { View } from 'react-native';
 import { useVideoPlayer } from './Hooks';
 import { Text } from 'react-native-paper';
-import { APP_TEXT } from 'src/strings';
+import { useTranslation } from 'react-i18next';
 
 const VideoPlayer = (props: VideoProperties) => {
   const { isError, setIsError } = useVideoPlayer();
+  const { t } = useTranslation('common');
   return (
     <View style={styles.container}>
       {isError ? (
         <View>
-          <Text>{APP_TEXT.video_not_loaded}</Text>
+          <Text>{t('video_not_loaded')}</Text>
         </View>
       ) : (
         <Video

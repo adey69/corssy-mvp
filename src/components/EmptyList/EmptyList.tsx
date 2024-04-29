@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { APP_TEXT } from 'src/strings';
 import styles from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IEmptyListProps {
   message?: string;
@@ -10,9 +10,10 @@ interface IEmptyListProps {
 
 const EmptyList = (props: IEmptyListProps) => {
   const { message } = props;
+  const { t } = useTranslation('common');
   return (
     <View style={styles.container}>
-      <Text variant="labelLarge">{message ?? APP_TEXT.no_items_to_show}</Text>
+      <Text variant="labelLarge">{message ?? t('no_items_to_show')}</Text>
     </View>
   );
 };

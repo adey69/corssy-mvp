@@ -12,8 +12,8 @@ import { theme } from 'src/theme';
 import styles from './styles';
 import { useLessonDetails } from './Hooks';
 import { FlatList, ListRenderItemInfo, ScrollView, View } from 'react-native';
-import { APP_TEXT } from 'src/strings';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LessonDetails = () => {
   const {
@@ -29,6 +29,7 @@ const LessonDetails = () => {
     onNextPressed,
     onPreviousPressed,
   } = useLessonDetails();
+  const { t } = useTranslation('common');
 
   const renderImageAndTextContent = useCallback(
     (item: ITextAndImageWidgetContent) => {
@@ -72,7 +73,7 @@ const LessonDetails = () => {
     }
     return (
       <View style={styles.widgetItem}>
-        <Text>{APP_TEXT.unable_to_load_content}</Text>
+        <Text>{t('unable_to_load_content')}</Text>
       </View>
     );
   }, []);
@@ -86,7 +87,7 @@ const LessonDetails = () => {
             onPress={onPreviousPressed}
             style={[styles.footerButton, styles.previousButton]}
           >
-            <Text variant="bodyLarge">{APP_TEXT.previous}</Text>
+            <Text variant="bodyLarge">{t('previous')}</Text>
           </Button>
         )}
         <Button
@@ -96,8 +97,8 @@ const LessonDetails = () => {
         >
           <Text style={styles.nextButton} variant="bodyLarge">
             {widgetsList && currentWidgetIndex === widgetsList?.length - 1
-              ? APP_TEXT.complete
-              : APP_TEXT.next}
+              ? t('complete')
+              : t('next')}
           </Text>
         </Button>
       </View>
@@ -148,7 +149,7 @@ const LessonDetails = () => {
       <InfoModal
         onDismiss={() => setShowErrorModal(false)}
         visible={showErrorModal}
-        message={APP_TEXT.something_went_wrong}
+        message={t('something_went_wrong')}
       />
     </SafeAreaView>
   );

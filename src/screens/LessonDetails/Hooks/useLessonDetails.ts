@@ -1,5 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList } from 'react-native';
 import {
   GradeSliceActions,
@@ -8,7 +9,6 @@ import {
   useAppSelector,
   useGetLessonDetailsQuery,
 } from 'src/rtk';
-import { APP_TEXT } from 'src/strings';
 
 export default () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -19,6 +19,7 @@ export default () => {
     params: { id },
   } = useRoute<LessonDetailsRouteProp>();
   const completedLessonsWidgets = useAppSelector(getLessonByIdSelector)[id];
+  const { t } = useTranslation('common');
 
   const {
     isLoading,
@@ -97,7 +98,7 @@ export default () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: `${APP_TEXT.lesson} ${lessonDetails?.lessonNumber ?? ''}`,
+      headerTitle: `${t('lesson')} ${lessonDetails?.lessonNumber ?? ''}`,
     });
   }, [lessonDetails]);
 
