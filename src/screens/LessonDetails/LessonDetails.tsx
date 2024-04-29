@@ -65,7 +65,11 @@ const LessonDetails = () => {
       return (
         <View style={styles.widgetItem}>
           <VideoPlayer
-            source={{ uri: item?.videoWidgetContent?.videoUrl ?? '' }}
+            source={{
+              uri:
+                'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' ??
+                '',
+            }}
           />
         </View>
       );

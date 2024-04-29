@@ -1,10 +1,19 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
-## Step 1: Start the Metro Server
+## Step 1: Create the .env file
+
+First, create a .env file in the root directory of the project and add the following environment variables in the created file.
+
+BASE_URL=https://lessonapi.educationforalliraqis.com
+USER_ID=65edc62cc1aa0078000f9c01
+GRADE_ID=6625514923f87505231c8f89
+TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVkYzYyY2MxYWEwMDc4MDAwZjljMDEiLCJpYXQiOjE3MTM3MzQxOTh9.2ZIPdqfGIEbm0t6iSE14HTQw1ASehe_hijG_iEnWFJU
+
+It may seem silly that I'm sharing the variables in Readme but not pushing the .env file itself but it is just to demonstrate the real-life scenarios.
+
+## Step 2: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
@@ -18,7 +27,7 @@ npm start
 yarn start
 ```
 
-## Step 2: Start your Application
+## Step 3: Start your Application
 
 Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
 
@@ -46,34 +55,36 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
+## Assumptions:
 
-Now that you have successfully run the app, let's modify it.
+1. The user has purchased all the lessons of the subjects of the grade they are enrolled in.
+2. As the data returned by the `/lessons/subject/${subjectId}` API is an array, I'm assuming there can be multiple chapters in the subject (obvious imo) and the `lessons` array in any element of the `data` array is related to the `chapter` within the same element. Moreover, the `chapter` array in any element will always contain one and only one element (doesn't make sense for multiple chapters).
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+## Technical Choices:
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+The app demanded a central state management system, and as I am most familiar and comfortable with redux, I implemented Redux as my state management platform.
+For API integration, I used the RTK Query as it's very easy to integrate with redux and provides some ease in state management.
+I treated the provided secret variables like `userId`, `gradeId` and `token` like environment variables to mock a close to real-life scenario.
+I used `react-navigation` for the minimum navigation that was required in the application.
+To implement the persistence logic, I made use of `redux-persit` and `AsyncStorage`.
 
-## Congratulations! :tada:
+## Future Plans:
 
-You've successfully run and modified your React Native App. :partying_face:
+I would spend more time on designing UI (although it's not my forte) and adding animations for a more smooth UX.
+If more time was available, I would have considered using/displaying rest of the data related to chapters and lessons somehow in my application to make it more appealing and engaging.
+I may add a splash screen and an app icon as well.
+Treat error handling better if I know what type of errors may occur from backend.
 
-### Now what?
+## Bonus Features Attempted:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+Added support for internationalization.
 
-# Troubleshooting
+## Compromises:
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+The `questions` array in lesson details API is not populated and instead it just returns the `id` of the questions. Because of this reason, I couldn't implement the quiz logic and you will see a screen displaying an error message for the MCQ widgets. This feels like a very important part of the application but as I was not getting the required data from the backend, I had to make this compromise.
 
-# Learn More
+## Resources Used:
 
-To learn more about React Native, take a look at the following resources:
+I used React Native Paper UI library to be done with UI faster than having to create it manually.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## UI Images:
