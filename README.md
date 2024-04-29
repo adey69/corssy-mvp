@@ -59,6 +59,9 @@ This is one way to run your app — you can also run it directly from within And
 
 1. The user has purchased all the lessons of the subjects of the grade they are enrolled in.
 2. As the data returned by the `/lessons/subject/${subjectId}` API is an array, I'm assuming there can be multiple chapters in the subject (obvious imo) and the `lessons` array in any element of the `data` array is related to the `chapter` within the same element. Moreover, the `chapter` array in any element will always contain one and only one element (doesn't make sense for multiple chapters).
+3. If the video url returned in the lesson detail is of a youtube video, we will have a youtube API key for that as well. In this case, the video returned was from youtube but there was no api key so I tested the UI with a publicly accessible video (find url below and replace the video source with it in LessonDetails file, line 68).
+
+URL: https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
 
 ## Technical Choices:
 
